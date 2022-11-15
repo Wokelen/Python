@@ -1,8 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 from utils import *
-
+import logger
 app = Flask(__name__)
 
+log = logger.get_logger("api")
 
 @app.route('/')
 def view_posts():
@@ -30,11 +31,13 @@ def user_post(user_name):
 @app.route('/api/')
 def api_posts():
     posts = load_posts()
+    log.info(f"api_posts = > {len(posts)}")
     return jsonify(posts)
 
 @app.route('/api/post/<int:pk>')
 def api_post(pk):
     post = load_post(pk)
+    log.info(f"api_post = > {pk}")
     return jsonify(post)
 
 @app.errorhandler(500)
