@@ -5,11 +5,13 @@ main_blueprint = Blueprint('main_blueprint',__name__,template_folder='templates'
 
 # Добавим render_template
 @main_blueprint.route('/')
-def main_page():
+def view_posts():
     return render_template("index.html")
 
-@main_blueprint.route('/search')
-def search_page():
-    substr = request.args.get("s")
-    posts = search_post(substr)
-    return render_template("post_list.html", posts = posts, substr = substr)
+@main_blueprint.route('/<int:pk>')
+def view_posts(pk):
+
+    return render_template("post.html")
+
+if __name__ == "__main__":
+    app.run(debug = True)
